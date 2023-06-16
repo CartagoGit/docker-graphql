@@ -6,18 +6,14 @@ on:
   pull_request:
     branches: [ "main" ]
     
-
 jobs:
-
   build:
     env: 
         DOCKER_USER: ${{ secrets.DOCKER_USER }}
-        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }} 
-        
-
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}     
     runs-on: ubuntu-latest
-
     steps:
+    
     - name: Checkout Code
       uses: actions/checkout@v3
       with:
@@ -31,8 +27,7 @@ jobs:
         minor_pattern: "feat:"
         format: "${major}.${minor}.${patch}-prerelease${increment}"
       id: version
-
-        
+     
     - name: Docker Login
       env:
         VERSION: ${{ steps.version.outputs.version }}
@@ -41,6 +36,7 @@ jobs:
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
         echo "New version: $VERSION"
         echo "Fin del login"
+        
 #     - name: Build Docker Image
 #     # docker build -t $DOCKER_USER/docker-graphql:0.0.2 .
 #       run: |
