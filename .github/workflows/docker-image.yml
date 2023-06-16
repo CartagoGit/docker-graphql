@@ -20,17 +20,18 @@ jobs:
         # Toma todo el codigo que tengo en el repositorio
         fetch-depth: 0
         
-    - name: Git Semantic Version
+    - name: Git Semantic Version Extension
       uses: PaulHatch/semantic-version@v5.0.3
       with:
         major_pattern: "major:"
         minor_pattern: "feat:"
-        format: "${major}.${minor}.${patch}-prerelease${increment}"
-      id: version
+        version_format: "${major}.${minor}.${patch}-prerelease${increment}"
+        namespace: docker-graphql
+      id: version_extension
      
     - name: Docker Login
       env:
-        VERSION: ${{ steps.version.outputs.version }}
+        VERSION: ${{ steps.version_extension.outputs.version }}
       run: |
         echo "Iniciando login"
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
