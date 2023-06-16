@@ -10,6 +10,9 @@ on:
 jobs:
 
   build:
+    env: 
+        DOCKER_USER: ${{ secrets.DOCKER_USER }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }} 
 
     runs-on: ubuntu-latest
 
@@ -20,22 +23,20 @@ jobs:
         # Toma todo el codigo que tengo en el repositorio
         fetch-depth: 0
     - name: Docker Login
-      env: 
-        DOCKER_USER: ${{ secrets.DOCKER_USER }}
-        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }} 
+      
       run: |
         echo "Iniciando login"
-        docker login -u ${{ env.DOCKER_USER }} -p ${{ env.DOCKER_USER }}
+        docker login -u $DOCKER_USER }} -p $DOCKER_USER }}
         echo "Fin del login"
     - name: Build Docker Image
     # docker build -t $DOCKER_USER/docker-graphql:0.0.2 .
       run: |
        
-        docker build -t ${{ env.DOCKER_USER }}/docker-graphql:0.0.2 .
+        docker build -t $DOCKER_USER/docker-graphql:0.0.2 .
     - name: Push Docker Image
     # docker push $DOCKER_USER/docker-graphql:0.0.2 .
       run: |
-        docker push ${{ env.DOCKER_USER }}/docker-graphql:0.0.2
+        docker push $DOCKER_USER/docker-graphql:0.0.2
         
     
 #     - name: Build the Docker image
