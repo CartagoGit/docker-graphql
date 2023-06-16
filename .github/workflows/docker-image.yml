@@ -28,11 +28,14 @@ jobs:
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
         echo "Fin del login"
     - name: Build Docker Image
+    # docker build -t $DOCKER_USER/docker-graphql:0.0.2 .
       run: |
-        docker build -t $DOCKER_USER/docker-graphql:0.0.2 .
+       
+        docker build -t cartagodocker/docker-graphql:0.0.2 .
     - name: Push Docker Image
+    # docker push $DOCKER_USER/docker-graphql:0.0.2 .
       run: |
-        docker push $DOCKER_USER/docker-graphql:0.0.2 .
+        docker push cartagodocker/docker-graphql:0.0.2 .
         
     
 #     - name: Build the Docker image
