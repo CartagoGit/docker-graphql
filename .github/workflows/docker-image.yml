@@ -13,7 +13,7 @@ jobs:
     env: 
         DOCKER_USER: ${{ secrets.DOCKER_USER }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }} 
-        VERSION: ${{ steps.version.outputs.version }}
+        VERSION: ${{ version.outputs.version }}
 
     runs-on: ubuntu-latest
 
@@ -34,6 +34,8 @@ jobs:
 
         
     - name: Docker Login
+      #env:
+        #VERSION: ${{ steps.version.outputs.version }}
       run: |
         echo "Iniciando login"
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
