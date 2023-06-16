@@ -13,6 +13,7 @@ jobs:
     env: 
         DOCKER_USER: ${{ secrets.DOCKER_USER }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }} 
+        VERSION: ${{ steps.version.outputs.version }}
 
     runs-on: ubuntu-latest
 
@@ -22,23 +23,33 @@ jobs:
       with:
         # Toma todo el codigo que tengo en el repositorio
         fetch-depth: 0
+        
+    - name: Git Semantic Version
+      uses: PaulHatch/semantic-version@v5.0.3
+      with:
+        major_pattern: "major:"
+        minor_pattern: "feat:"
+        format: "${major}.${minor}.${patch}-prerelease${increment}"
+      id: version
+
+        
     - name: Docker Login
-      
       run: |
         echo "Iniciando login"
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+        eccho "New version: $VERSION"
         echo "Fin del login"
-    - name: Build Docker Image
-    # docker build -t $DOCKER_USER/docker-graphql:0.0.2 .
-      run: |
+#     - name: Build Docker Image
+#     # docker build -t $DOCKER_USER/docker-graphql:0.0.2 .
+#       run: |
        
-        docker build -t $DOCKER_USER/docker-graphql:0.0.3 .
-        docker build -t $DOCKER_USER/docker-graphql:latest .
-    - name: Push Docker Image
-    # docker push $DOCKER_USER/docker-graphql:0.0.2 .
-      run: |
-        docker push $DOCKER_USER/docker-graphql:0.0.3
-        docker push $DOCKER_USER/docker-graphql:latest
+#         docker build -t $DOCKER_USER/docker-graphql:0.0.3 .
+#         docker build -t $DOCKER_USER/docker-graphql:latest .
+#     - name: Push Docker Image
+#     # docker push $DOCKER_USER/docker-graphql:0.0.2 .
+#       run: |
+#         docker push $DOCKER_USER/docker-graphql:0.0.3
+#         docker push $DOCKER_USER/docker-graphql:latest
         
     
 #     - name: Build the Docker image
