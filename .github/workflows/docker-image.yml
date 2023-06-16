@@ -27,28 +27,31 @@ jobs:
         minor_pattern: "feat:"
         version_format: "${major}.${minor}.${patch}-pre${increment}"
         namespace: docker-graphql
+        tag_prefix: "docker-graphql_"
       id: version_extension
      
     - name: Docker Login
       env:
-        VERSION: ${{ steps.version_extension.outputs.version }}
+        VERSION_TAG: ${{ steps.version_extension.outputs.version_tag }}
       run: |
         echo "Iniciando login"
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-        echo "New version: $VERSION"
+        echo "New version: $VERSION_TAG"
         echo "Fin del login"
         
-#     - name: Build Docker Image
-#     # docker build -t $DOCKER_USER/docker-graphql:0.0.2 .
-#       run: |
-       
-#         docker build -t $DOCKER_USER/docker-graphql:0.0.3 .
-#         docker build -t $DOCKER_USER/docker-graphql:latest .
-#     - name: Push Docker Image
-#     # docker push $DOCKER_USER/docker-graphql:0.0.2 .
-#       run: |
-#         docker push $DOCKER_USER/docker-graphql:0.0.3
-#         docker push $DOCKER_USER/docker-graphql:latest
+    - name: Build Docker Image
+      env:
+        VERSION: ${{ steps.version_extension.outputs.version }}
+      run: |       
+        docker build -t $DOCKER_USER/docker-graphql:$VERSION .
+        docker build -t $DOCKER_USER/docker-graphql:latest .
+        
+    - name: Push Docker Image
+      env:
+        VERSION: ${{ steps.version_extension.outputs.version }}
+      run: |
+        docker push $DOCKER_USER/docker-graphql:$VERSION
+        docker push $DOCKER_USER/docker-graphql:latest
         
     
 #     - name: Build the Docker image
