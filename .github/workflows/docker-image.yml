@@ -32,11 +32,13 @@ jobs:
     # docker build -t $DOCKER_USER/docker-graphql:0.0.2 .
       run: |
        
-        docker build -t $DOCKER_USER/docker-graphql:0.0.2 .
+        docker build -t $DOCKER_USER/docker-graphql:0.0.3 .
+        docker build -t $DOCKER_USER/docker-graphql:latest .
     - name: Push Docker Image
     # docker push $DOCKER_USER/docker-graphql:0.0.2 .
       run: |
-        docker push $DOCKER_USER/docker-graphql:0.0.2
+        docker push $DOCKER_USER/docker-graphql:0.0.3
+        docker push $DOCKER_USER/docker-graphql:latest
         
     
 #     - name: Build the Docker image
