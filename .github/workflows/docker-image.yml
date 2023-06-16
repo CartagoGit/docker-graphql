@@ -29,10 +29,10 @@ jobs:
         echo "Fin del login"
     - name: Build Docker Image
       run: |
-        docker build -t cartagodocker/docker-graphql:0.0.2 .
+        docker build -t $DOCKER_USER/docker-graphql:0.0.2 .
     - name: Push Docker Image
       run: |
-        docker push cartagodocker/docker-graphql:0.0.2 .
+        docker push $DOCKER_USER/docker-graphql:0.0.2 .
         
     
 #     - name: Build the Docker image
